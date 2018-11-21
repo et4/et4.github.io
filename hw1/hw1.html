@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+        var i = 0;
+
+        function changeQuote() {
+            var citation1 = "All successful men and women are big dreamers. They imagine what their future could be, ideal in every respect, and then they work every day toward their distant vision, that goal or purpose. – Brian Tracy";
+            var citation2 = "Another one";
+            var citation3 = "Some text";
+            var citations = [citation1, citation2, citation3];
+            var status = document.getElementById("quote");
+            status.innerHTML = citations[i % citations.length];
+            i++;
+        }
+
+        /*var getJSON = function (url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+            xhr.onload = function () {
+                var status = xhr.status;
+                if (status === 200) {
+                    callback(null, xhr.response);
+                } else {
+                    callback(status, xhr.response);
+                }
+            };
+            xhr.send();
+        };
+
+        getJSON('https://raw.githubusercontent.com/4skinSkywalker/Database-Quotes-JSON/master/quotes.json',
+            function (err, data) {
+                if (err !== null) {
+                    alert('Something went wrong: ' + err);
+                } else {
+                    alert('Your query count: ' + data.query.count);
+                }
+            });*/
+
+        window.onload = changeQuote;
+    </script>
+    <style type="text/css">
+        .h1 {
+            font-size: 36px;
+            font-family: Open Sans, serif;
+            color: #1946ba;
+        }
+
+        #outer_block {
+            font-family: Open Sans, serif;
+            border: 1px solid #F5F5F5;
+            padding: 10px;
+            width: 960px;
+        }
+
+        #inner_block {
+            border-left: 2px solid #ccc;
+            margin-left: 20px;
+            padding-left: 10px;
+        }
+
+        .b1 {
+            background: #ec0b43;
+            color: white;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+<p class='h1'>First VIS101 Homework</p>
+
+<div id='outer_block'>
+    <p><b>Quote Of the Day:</b></p>
+    <div id='inner_block'>
+        <p id='quote'></p>
+    </div>
+</div>
+<p><input class='b1' type="button" value="Change Quote Of the Day" onclick="changeQuote()"></p>
+</body>
+</html>
