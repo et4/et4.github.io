@@ -10,8 +10,8 @@
             var citation2 = "Another one";
             var citation3 = "Some text";
             var citations = [citation1, citation2, citation3];
-            var status = document.getElementById("quote");
-            status.innerHTML = citations[i % citations.length];
+            var elem = document.getElementById("quote");
+            elem.innerHTML = citations[i % citations.length];
             i++;
         }
 
@@ -64,7 +64,7 @@
         .b1 {
             background: #ec0b43;
             color: white;
-            height: 30px;
+            height: 40px;
         }
     </style>
 </head>
