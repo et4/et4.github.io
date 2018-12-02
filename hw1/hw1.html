@@ -3,43 +3,40 @@
 <head>
     <meta charset="utf-8">
     <script>
-        var i = 0;
+        var citations = [];
 
         function changeQuote() {
-            var citation1 = "All successful men and women are big dreamers. They imagine what their future could be, ideal in every respect, and then they work every day toward their distant vision, that goal or purpose. – Brian Tracy";
-            var citation2 = "Another one";
-            var citation3 = "Some text";
-            var citations = [citation1, citation2, citation3];
             var elem = document.getElementById("quote");
-            elem.innerHTML = citations[i % citations.length];
-            i++;
+            var i = getRandomArbitrary(0, citations.length);
+            elem.innerHTML = citations[i]['quote'];
         }
 
-        /*var getJSON = function (url, callback) {
+        function getRandomArbitrary(min, max) {
+            return Math.round(Math.random() * (max - min) + min);
+        }
+
+        function globalInit(citations) {
+            this.citations = citations;
+            changeQuote();
+        }
+
+        var getJSON = function (url) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.responseType = 'json';
             xhr.onload = function () {
                 var status = xhr.status;
                 if (status === 200) {
-                    callback(null, xhr.response);
+                    globalInit(xhr.response);
                 } else {
-                    callback(status, xhr.response);
+                    var errMsg = 'Could not read file';
+                    alert(errMsg);
+                    console.log(errMsg);
                 }
             };
             xhr.send();
         };
-
-        getJSON('https://raw.githubusercontent.com/4skinSkywalker/Database-Quotes-JSON/master/quotes.json',
-            function (err, data) {
-                if (err !== null) {
-                    alert('Something went wrong: ' + err);
-                } else {
-                    alert('Your query count: ' + data.query.count);
-                }
-            });*/
-
-        window.onload = changeQuote;
+        window.onload = getJSON('https://raw.githubusercontent.com/mdn/learning-area/master/accessibility/aria/quotes.json');
     </script>
     <style type="text/css">
         .h1 {
