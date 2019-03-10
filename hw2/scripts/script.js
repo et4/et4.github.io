@@ -81,11 +81,11 @@ function onChangeControls() {
             }
         });
     }
-	
+
     if (remove) {
         if (barHolder) {
-			barHolder = 0;
             barHolder.remove();
+            barHolder = 0;
         }
     }
     fillData();
@@ -116,18 +116,8 @@ function loadChart() {
             })])
             .rangeRound([0, width]);
 
-        if (barHolder) {
-			barScale = d3.scaleLinear()
-                .domain([0, d3.max(currentData, function (d) {
-                    return d[chartDisplay];
-                })])
-                .range([0, width]);
-            bars.transition()
-                .attr('width', function (d) {
-                    return barScale(d[chartDisplay]);
-                })
-        } else {
-			barScale = d3.scaleLinear()
+        if (!barHolder) {
+            barScale = d3.scaleLinear()
                 .domain([0, d3.max(currentData, function (d) {
                     return d[chartDisplay];
                 })])
@@ -163,6 +153,16 @@ function loadChart() {
                     return (yPos - barWidth * 0.3);
                 });
             bars = barHolder.selectAll('rect.bar');
+        } else {
+            barScale = d3.scaleLinear()
+                .domain([0, d3.max(currentData, function (d) {
+                    return d[chartDisplay];
+                })])
+                .range([0, width]);
+            bars.transition()
+                .attr('width', function (d) {
+                    return barScale(d[chartDisplay]);
+                })
         }
     }
 }
@@ -248,11 +248,11 @@ function loadTable() {
 
 function fillData() {
     d3.json("./data/countries_1995_2012.json").then(function (data) {
-        data.forEach(function callback(innerData, index, array) {
-			innerData.population = innerData.years[currentYear - 1995].population;
-            innerData.year = innerData.years[currentYear - 1995].year;
-            innerData.gdp = innerData.years[currentYear - 1995].gdp;
-            innerData.life_expectancy = innerData.years[currentYear - 1995].life_expectancy;
+        data.forEach(function callback(d, index, array) {
+            d.gdp = d.years[currentYear - 1995].gdp;
+            d.life_expectancy = d.years[currentYear - 1995].life_expectancy;
+            d.population = d.years[currentYear - 1995].population;
+            d.year = d.years[currentYear - 1995].year;
         });
         newData = data;
 
@@ -262,18 +262,19 @@ function fillData() {
             }).entries(data);
             var nestedKeys = d3.keys(data);
             nestedKeys.forEach(function (d, index, array) {
-				newData[index].gdp = d3.sum(data[index].values, function callback(d, index, array) {
+                newData[index].name = data[index].key;
+                newData[index].continent = data[index].key;
+				newData[index].year = currentYear;
+				
+                newData[index].gdp = d3.sum(data[index].values, function callback(d, index, array) {
                     return d.gdp;
-                });
-                newData[index].life_expectancy = d3.mean(data[index].values, function callback(d, index, array) {
-                    return d.life_expectancy;
                 });
                 newData[index].population = d3.sum(data[index].values, function callback(d, index, array) {
                     return d.population;
+                });				
+                newData[index].life_expectancy = d3.mean(data[index].values, function callback(d, index, array) {
+                    return d.life_expectancy;
                 });
-                newData[index].name = data[index].key;
-                newData[index].continent = data[index].key;
-                newData[index].year = currentYear
             });
             newData = newData.filter(function (d) {
                 return (d["continent"] == d["name"]);
@@ -288,15 +289,15 @@ function fillData() {
         }
 
         if (sortBy) {
-            data.sort(function (v1, v2) {
-                var res = d3.descending(v1[sortBy], v2[sortBy]);
-				if (res == 0) {
-                    res = -d3.descending(v1["name"], v2["name"]);
-                }
+            data.sort(function (a, b) {
+                var result = d3.descending(a[sortBy], b[sortBy]);
+                if (result == 0) {
+                    result = -d3.descending(a["name"], b["name"]);
+                }				
                 if (sortByDescending != true) {
-                    res -= res;
+                    result = -result;
                 }
-                return res;
+                return result;
             });
         }
         currentData = data;
