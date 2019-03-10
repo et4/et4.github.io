@@ -7,8 +7,13 @@
 
         function changeQuote() {
             var elem = document.getElementById("quote");
-            var i = getRandomArbitrary(0, citations.length);
-            elem.innerHTML = citations[i]['quote'];
+			var selector = document.getElementById("mySelect");
+			var selectedAuthor = selector[selector.selectedIndex].value;
+			var feltered = citations.filter(function(pair) {
+				return pair["author"] === selectedAuthor;
+			});
+            var i = getRandomArbitrary(0, feltered.length - 1);
+            elem.innerHTML = feltered[i]["quote"];
         }
 
         function getRandomArbitrary(min, max) {
@@ -17,7 +22,27 @@
 
         function globalInit(citations) {
             this.citations = citations;
-            changeQuote();
+
+            var container = document.getElementById("container");
+
+            var array = citations.map(function(currentValue) {
+                return currentValue["author"];
+            });
+
+            //Create and append select list
+            var selectList = document.createElement("select");
+            selectList.id = "mySelect";
+            container.appendChild(selectList);
+
+            //Create and append the options
+            for (var i = 0; i < array.length; i++) {
+                var option = document.createElement("option");
+                option.value = array[i];
+                option.text = array[i];
+                selectList.appendChild(option);
+            }
+			
+			changeQuote();
         }
 
         var getJSON = function (url) {
@@ -58,7 +83,7 @@
             padding-left: 10px;
         }
 
-        .b1 {
+        .btn {
             background: #ec0b43;
             color: white;
             height: 40px;
@@ -74,6 +99,8 @@
         <p id='quote'></p>
     </div>
 </div>
-<p><input class='b1' type="button" value="Change Quote Of the Day" onclick="changeQuote()"></p>
+<div id="container">
+    <input class='btn' type="button" value="Change Quote Of the Day" onclick="changeQuote()">
+</div>
 </body>
 </html>

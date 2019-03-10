@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Barchart</title>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="./scripts/script.js"></script>
+</head>
+<body onload="initForChart();">
+<div id=chart>
+    <p>Time update:
+        <label id="startYear"></label>
+        <input id="yearRange" type="range" oninput="onChangeControls();">
+        <label id="endYear"></label>
+    </p>
+    <p>Display by:
+        <label>
+            <input type="radio" checked name="chartDisplay" value="population" onchange="onChangeControls();">
+            Population
+        </label>
+        <label>
+            <input type="radio" name="chartDisplay" value="gdp" onchange="onChangeControls();">
+            GDP
+        </label>
+    </p>
+    <p>Filter by:
+        <label>
+            <input type="checkbox" value="Africa" onchange="onChangeControls();">
+            Africa
+        </label>
+        <label>
+            <input type="checkbox" value="Americas" onchange="onChangeControls();">
+            Americas
+        </label>
+        <label>
+            <input type="checkbox" value="Asia" onchange="onChangeControls();">
+            Asia
+        </label>
+        <label>
+            <input type="checkbox" value="Europe" onchange="onChangeControls();"/>
+            Europe
+        </label>
+        <label>
+            <input type="checkbox" value="Oceania" onchange="onChangeControls();">
+            Oceania
+        </label>
+    </p>
+    <p>
+        Aggregation:
+        <label>
+            <input type="radio" checked name="aggregation" value="none" onchange="onChangeControls();">
+            None
+        </label>
+        <label>
+            <input type="radio" name="aggregation" value="by continent" onchange="onChangeControls();">
+            By continent
+        </label>
+    </p>
+    <p>Sort by:
+        <label>
+            <input type="radio" checked name="sorting" value="name" onchange="onChangeControls();">
+            Name
+        </label>
+        <label>
+            <input type="radio" name="sorting" value="population" onchange="onChangeControls();">
+            Population
+        </label>
+        <label>
+            <input type="radio" name="sorting" value="gdp" onchange="onChangeControls();">
+            GDP
+        </label>
+    </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Table</title>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="./scripts/script.js"></script>
+</head>
+<body onload="initTable();">
+<div id=table>
+    <p>Time update:
+        <label id="startYear"></label>
+        <input id="yearRange" type="range" oninput="onChangeControls();">
+        <label id="endYear"></label>
+    </p>
+    <p>Filter by:
+        <label>
+            <input type="checkbox" value="Africa" onchange="onChangeControls();"/>
+            Africa
+        </label>
+        <label>
+            <input type="checkbox" value="Americas" onchange="onChangeControls();">
+            Americas
+        </label>
+        <label>
+            <input type="checkbox" value="Asia" onchange="onChangeControls();">
+            Asia
+        </label>
+        <label>
+            <input type="checkbox" value="Europe" onchange="onChangeControls();">
+            Europe
+        </label>
+        <label>
+            <input type="checkbox" value="Oceania" onchange="onChangeControls();">
+            Oceania
+        </label>
+    </p>
+    <p>
+        Aggregation:
+        <label>
+            <input type="radio" checked name="aggregation" value="none" onchange="onChangeControls();">
+            None
+        </label>
+        <label>
+            <input type="radio" name="aggregation" value="by continent" onchange="onChangeControls();">
+            By continent
+        </label>
+    </p>
+</div>
+</body>
+</html>
